@@ -2,18 +2,24 @@ import React, { Component } from 'react';
 import { Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Jumbotron } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
+function NavItemLink({icon, to, children}) {
+  return(                
+  <NavItem>
+    <NavLink className="nav-link" to={to}>
+      <i className={`fa ${icon} fa-lg`} /> {children}
+    </NavLink>
+  </NavItem>)
+}
 class Header extends Component {
 
   constructor(props) {
     super(props);
-
-    this.toggleNav = this.toggleNav.bind(this);
     this.state = {
       isNavOpen: false
     };
   }
 
-  toggleNav() {
+  toggleNav = () => {
     this.setState({
       isNavOpen: !this.state.isNavOpen
     });
@@ -38,26 +44,18 @@ class Header extends Component {
             <NavbarToggler onClick={this.toggleNav} />
             <Collapse isOpen={this.state.isNavOpen} navbar>
               <Nav navbar>
-                <NavItem>
-                  <NavLink className="nav-link" to="/home">
-                    <i className="fa fa-home fa-lg" /> Home
-                                    </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink className="nav-link" to="/directory">
-                    <i className="fa fa-list fa-lg" /> Directory
-                                    </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink className="nav-link" to="/aboutus">
-                    <i className="fa fa-info fa-lg" /> About
-                                    </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink className="nav-link" to="/contactus">
-                    <i className="fa fa-address-card fa-lg" /> Contact Us
-                                    </NavLink>
-                </NavItem>
+                <NavItemLink to="/home" icon="fa-home">
+                  Home
+                </NavItemLink>
+                <NavItemLink to="/directory" icon="fa-list">
+                  Directory
+                </NavItemLink>
+                <NavItemLink to="/aboutus" icon="fa-info">
+                  About
+                </NavItemLink>
+                <NavItemLink to="/contactus" icon="fa-address-card">
+                  Contact Us
+                </NavItemLink>
               </Nav>
             </Collapse>
           </div>
