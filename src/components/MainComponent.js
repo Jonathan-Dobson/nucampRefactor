@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Directory from './DirectoryComponent';
 import CampsiteInfo from './CampsiteInfoComponent';
 import Home from './HomeComponent';
@@ -6,57 +6,46 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
-import { COMMENTS } from '../shared/comments';
-import { PARTNERS } from '../shared/partners';
-import { PROMOTIONS } from '../shared/promotions';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { CAMPSITES } from '../shared/campsites';
+import {COMMENTS} from '../shared/comments';
+import {PARTNERS} from '../shared/partners';
+import {PROMOTIONS} from '../shared/promotions';
+import {Switch, Route, Redirect} from 'react-router-dom';
+import {CAMPSITES} from '../shared/campsites';
 
-class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      campsites: CAMPSITES,
-      comments: COMMENTS,
-      partners: PARTNERS,
-      promotions: PROMOTIONS
-    };
-  }
-
-  render() {
-    const HomePage = () => {
-      return(
-        <Home campsite={this.state.campsites.filter(campsite => campsite.featured)[0]}
-          promotion={this.state.promotions.filter(promotion => promotion.featured)[0]}
-          partner={this.state.partners.filter(partner => partner.featured)[0]}
-          />
-      );
-    }
-
-    const CampsiteWithId = ({ match }) => {
-      return (
-        <CampsiteInfo
-          campsite={this.state.campsites.filter(campsite => campsite.id === +match.params.campsiteId)[0]}
-          comments={this.state.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)}
-        />
-      );
-    };
-
-    return (
-      <div>
-        <Header />
-        <Switch>
-          <Route path='/home' component={HomePage} />
-          <Route path='/directory/:campsiteId' component={CampsiteWithId} />
-          <Route path='/aboutus' render={() => <About partners={this.state.partners} />} />
-          <Route path='/directory' render={() => <Directory campsites={this.state.campsites} />} />
-          <Route path='/contactus' component={Contact} />
-          <Redirect to='/home' />
-        </Switch>
-        <Footer />
-      </div>
+const HomePageWithFeatured = () => {
+    const getFeatured = item => item.featured
+    return (<Home
+        campsite={CAMPSITES.filter(getFeatured)[0]}
+        promotion={PROMOTIONS.filter(getFeatured)[0]}
+        partner={PARTNERS.filter(getFeatured)[0]}/>
     );
-  };
+}
+
+const Campsite = ({match}) => {
+    return (<CampsiteInfo
+        campsite={CAMPSITES.filter(campsite => campsite.id === + match.params.campsiteId)[0]}
+        comments={COMMENTS.filter(comment => comment.campsiteId === + match.params.campsiteId)}/>
+    );
+};
+
+const AboutWithPartners = props => <About partners={PARTNERS} {...props}/>
+const DirectoryWithCampsites = props => <Directory campsites={CAMPSITES} {...props}/>
+
+const Main = () => {
+    return (
+        <div>
+            <Header/>
+            <Switch>
+                <Route path='/home' component={HomePageWithFeatured}/>
+                <Route path='/directory/:campsiteId' component={Campsite}/>
+                <Route path='/aboutus' component={AboutWithPartners}/>
+                <Route path='/directory' component={DirectoryWithCampsites}/>
+                <Route path='/contactus' component={Contact}/>
+                <Redirect to='/home'/>
+            </Switch>
+            <Footer/>
+        </div>
+    );
 }
 
 export default Main;
