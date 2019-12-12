@@ -6,40 +6,46 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
-import {COMMENTS} from '../shared/comments';
-import {PARTNERS} from '../shared/partners';
-import {PROMOTIONS} from '../shared/promotions';
-import {Switch, Route, Redirect} from 'react-router-dom';
-import {CAMPSITES} from '../shared/campsites';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux';
 
-const HomePageWithFeatured = () => {
+const mapStateToProps = state => {
+    return {
+        campsites: state.campsites,
+        comments: state.comments,
+        partners: state.partners,
+        promotions: state.promotions
+    };
+};
+
+const HomePageWithFeatured = ({campsites,promotions,partners}) => {
     const getFeatured = item => item.featured
     return (<Home
-        campsite={CAMPSITES.filter(getFeatured)[0]}
-        promotion={PROMOTIONS.filter(getFeatured)[0]}
-        partner={PARTNERS.filter(getFeatured)[0]}/>
+        campsite={campsites.filter(getFeatured)[0]}
+        promotion={promotions.filter(getFeatured)[0]}
+        partner={partners.filter(getFeatured)[0]}/>
     );
 }
 
-const Campsite = ({match}) => {
+const Campsite = ({match,campsites,comments}) => {
     return (<CampsiteInfo
-        campsite={CAMPSITES.filter(campsite => campsite.id === + match.params.campsiteId)[0]}
-        comments={COMMENTS.filter(comment => comment.campsiteId === + match.params.campsiteId)}/>
+        campsite={campsites.filter(campsite => campsite.id === + match.params.campsiteId)[0]}
+        comments={comments.filter(comment => comment.campsiteId === + match.params.campsiteId)}/>
     );
 };
 
-const AboutWithPartners = props => <About partners={PARTNERS} {...props}/>
-const DirectoryWithCampsites = props => <Directory campsites={CAMPSITES} {...props}/>
+const AboutWithPartners = props => <About partners={props.partners} {...props}/>
+const DirectoryWithCampsites = props => <Directory campsites={props.campsites} {...props}/>
 
-const Main = () => {
+const Main = (props) => {
     return (
         <div>
             <Header/>
             <Switch>
-                <Route path='/home' component={HomePageWithFeatured}/>
-                <Route path='/directory/:campsiteId' component={Campsite}/>
-                <Route path='/aboutus' component={AboutWithPartners}/>
-                <Route path='/directory' component={DirectoryWithCampsites}/>
+                <Route path='/home' render={()=>HomePageWithFeatured({...props})}/>
+                <Route path='/directory/:campsiteId' render={(rp)=>Campsite({...rp,...props})}/>
+                <Route path='/aboutus' render={()=>AboutWithPartners(props)}/>
+                <Route path='/directory' render={()=>DirectoryWithCampsites(props)}/>
                 <Route path='/contactus' component={Contact}/>
                 <Redirect to='/home'/>
             </Switch>
@@ -48,4 +54,4 @@ const Main = () => {
     );
 }
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));
