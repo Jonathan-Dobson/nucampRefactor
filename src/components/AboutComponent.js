@@ -10,6 +10,7 @@ import {
 import {Link} from 'react-router-dom';
 
 function About(props) {
+    console.log("about",props);
     const partners = props
         .partners
         .map(partner => {

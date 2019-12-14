@@ -1,23 +1,51 @@
-import React, { Component } from 'react';
-import Main from './components/MainComponent';
-import { BrowserRouter } from 'react-router-dom';
-import './App.css';
-import { Provider } from 'react-redux';
-import { ConfigureStore } from './redux/configureStore';
+import React from 'react';
+import {Switch, Route, Redirect, withRouter} from 'react-router-dom'
 
-const store = ConfigureStore();
-class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <div className="App">
-            <Main />
-          </div>
-        </BrowserRouter>
-      </Provider>
-    );
-  }
+// Pages
+import Home from './Pages/Home/Home';
+import Directory from './Pages/Directory/Directory';
+import Campsite from './Pages/Directory/Campsite';
+import Contact from './Pages/Contact/Contact';
+import About from './Pages/About/About'
+
+// App Components
+import Header from './Header';
+
+
+const App = (props) => {
+  const CampsiteWithId = r => <Campsite {...r} />
+
+  return (
+    <div>
+      <Header/>
+      <Switch>
+        <Route 
+          path="/home" 
+          component={Home}
+        />
+        <Route 
+          path="/directory/:campsiteId" 
+          render={CampsiteWithId}   
+        />
+        <Route 
+          path="/directory" 
+          component={Directory}
+        />
+
+        <Route 
+          path="/aboutus"
+          component={About}
+        />
+
+        <Route 
+          path='/contactus' 
+          component={Contact}
+        />
+        
+        <Redirect to='/home'/>
+      </Switch>
+    </div>
+  )
 }
 
-export default App;
+export default withRouter(App);

@@ -27,26 +27,39 @@ const HomePageWithFeatured = ({campsites,promotions,partners}) => {
     );
 }
 
-const Campsite = ({match,campsites,comments}) => {
-    return (<CampsiteInfo
-        campsite={campsites.filter(campsite => campsite.id === + match.params.campsiteId)[0]}
-        comments={comments.filter(comment => comment.campsiteId === + match.params.campsiteId)}/>
-    );
-};
-
 const AboutWithPartners = props => <About partners={props.partners} {...props}/>
-const DirectoryWithCampsites = props => <Directory campsites={props.campsites} {...props}/>
+
+const DirectoryWithCampsites = props => 
+    <Directory campsites={props.campsites} {...props}/>
 
 const Main = (props) => {
+
+    const Campsite = ({match}) => {
+        return (<CampsiteInfo
+            campsite={props.campsites.filter(campsite => campsite.id === + match.params.campsiteId)[0]}
+            comments={props.comments.filter(comment => comment.campsiteId === + match.params.campsiteId)}/>
+        );
+    };
+
     return (
         <div>
             <Header/>
             <Switch>
-                <Route path='/home' render={()=>HomePageWithFeatured({...props})}/>
-                <Route path='/directory/:campsiteId' render={(rp)=>Campsite({...rp,...props})}/>
-                <Route path='/aboutus' render={()=>AboutWithPartners(props)}/>
-                <Route path='/directory' render={()=>DirectoryWithCampsites(props)}/>
-                <Route path='/contactus' component={Contact}/>
+                <Route path='/home'>
+                    <HomePageWithFeatured {...props}/></Route>
+
+                <Route path='/directory/:campsiteId' 
+                    render={(r)=><Campsite {...r}/>}/>
+
+                <Route path='/aboutus'>
+                    <AboutWithPartners {...props} /></Route>
+
+                <Route path='/directory'>
+                    <DirectoryWithCampsites {...props}/></Route>
+
+                <Route path='/contactus'>
+                    <Contact /></Route>
+
                 <Redirect to='/home'/>
             </Switch>
             <Footer/>

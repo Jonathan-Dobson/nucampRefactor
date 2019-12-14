@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Jumbotron } from 'reactstrap';
+import { Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Jumbotron, Container } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 function NavItemLink({icon, to, children}) {
@@ -39,7 +39,7 @@ class Header extends Component {
           </div>
         </Jumbotron>
         <Navbar dark sticky="top" expand="md">
-          <div className="container">
+          <Container>
             <NavbarBrand className="mr-auto" href="/"><img src="/assets/images/logo.png" height="30" width="30" alt="NuCamp Logo" /></NavbarBrand>
             <NavbarToggler onClick={this.toggleNav} />
             <Collapse isOpen={this.state.isNavOpen} navbar>
@@ -58,7 +58,7 @@ class Header extends Component {
                 </NavItemLink>
               </Nav>
             </Collapse>
-          </div>
+          </Container>
         </Navbar>
       </React.Fragment>
     );
