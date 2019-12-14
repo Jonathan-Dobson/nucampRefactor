@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, Redirect, withRouter} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 
 // Pages
 import Home from './Pages/Home/Home';
@@ -10,6 +10,7 @@ import About from './Pages/About/About'
 
 // App Components
 import Header from './Header';
+import Footer from './Footer';
 
 
 const App = (props) => {
@@ -44,8 +45,9 @@ const App = (props) => {
         
         <Redirect to='/home'/>
       </Switch>
+      <Footer />
     </div>
   )
 }
 
-export default withRouter(App);
+export default App;
