@@ -1,12 +1,20 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Card, CardImg, CardImgOverlay, CardTitle, Container, Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import Breadcrumbs from '../sharedComponents/Breadcrumbs';
+import React from "react";
+import { connect } from "react-redux";
+import {
+  Card,
+  CardImg,
+  CardImgOverlay,
+  CardTitle,
+  Container,
+  Row,
+  Col
+} from "reactstrap";
+import { Link } from "react-router-dom";
+import Breadcrumbs from "../sharedComponents/Breadcrumbs";
 
 const mapStateToProps = state => ({
-  campsites: state.campsites,
-})
+  campsites: state.campsites
+});
 
 function RenderDirectoryItem({ campsite }) {
   return (
@@ -33,20 +41,11 @@ function Directory(props) {
   return (
     <Container>
       <Row>
-        <Breadcrumbs 
-          items={[
-            [ 'Nucamp', '/home' ],
-            [ 'Campsite Directory' ]
-          ]}
-        />
+        <Breadcrumbs items={[["Nucamp", "/home"], ["Directory"]]} />
       </Row>
-      <Row>
-        {directory}
-      </Row>
+      <Row>{directory}</Row>
     </Container>
   );
 }
 
 export default connect(mapStateToProps)(Directory);
-
-
