@@ -15,7 +15,6 @@ function Home(props) {
   const campsite = props.campsites.filter(getFeatured)[0];
   const promotion = props.promotions.filter(getFeatured)[0];
   const partner = props.partners.filter(getFeatured)[0];
-
   return (
     <Container>
       <Row>

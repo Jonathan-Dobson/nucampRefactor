@@ -1,9 +1,9 @@
 import React from 'react';
+import { Container, Row } from 'reactstrap';
 import Breadcrumbs from '../sharedComponents/Breadcrumbs';
 import OurMission from './OurMission';
 import Facts from './Facts';
 import Quote from './Quote';
-import { Container, Row } from 'reactstrap';
 import Partners from './Partners';
 
 function About(props) {

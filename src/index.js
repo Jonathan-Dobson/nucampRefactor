@@ -12,23 +12,41 @@ import "typeface-open-sans";
 
 // Redux
 import { Provider as ReduxProvider } from "react-redux";
-import { ConfigureStore } from "./redux/configureStore";
+import { createStore } from 'redux';
 
-//BrowserRouter
+// BrowserRouter
 import { BrowserRouter } from "react-router-dom";
 
 // Main App
 import App from "./App";
 import "./App.css";
 
-const newReduxStore = ConfigureStore();
+
+// Collection of data
+import { CAMPSITES } from './shared/campsites';
+import { COMMENTS } from './shared/comments';
+import { PARTNERS } from './shared/partners';
+import { PROMOTIONS } from './shared/promotions';
+
+// Initial state
+const state = {
+    campsites: CAMPSITES,
+    comments: COMMENTS,
+    partners: PARTNERS,
+    promotions: PROMOTIONS
+};
+
+// A function that returns a new state
+const setState = (state = state, action) => {
+    return state;
+};
 
 const AppWithRouterAndRedux = () => (
-  <BrowserRouter>
-    <ReduxProvider store={newReduxStore}>
-      <App />
-    </ReduxProvider>
-  </BrowserRouter>
+  <ReduxProvider store={ createStore( setState, state ) }>
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+  </ReduxProvider>
 );
 
 ReactDOM.render(<AppWithRouterAndRedux />, document.getElementById("root"));

@@ -14,7 +14,6 @@ import Footer from "./Footer";
 
 const App = props => {
   const CampsiteWithId = r => <Campsite {...r} />;
-
   return (
     <div>
       <Header />
